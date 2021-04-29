@@ -1,2 +1,4 @@
 *.tfvars
 *.exe
+*.hcl
+*.terraform.lock.hcl

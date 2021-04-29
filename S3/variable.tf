@@ -13,3 +13,7 @@ variable "AWS_REGION" {
 variable "AMIS" {
   type = string
 }
+
+variable "S3_ACCESS_KEY" {
+  type = string
+}

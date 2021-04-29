@@ -1,37 +1,42 @@
 # Initialize
 
-
-resource : 실제로 생성할 인프라 자원을 의미합니다. ex) aws_security_group, aws_lb, aws_instance
-provider : Terraform으로 정의할 Infrastructure Provider를 의미합니다.
+- resource: It means the infrastructure resource to be actually created. ex) aws_security_group, aws_lb, aws_instance
+- provider: It means the Infrastructure Provider to be defined as Terraform.
 https://www.terraform.io/docs/providers/index.html
-output : 인프라를 프로비저닝 한 후에 생성된 자원을 output 부분으로 뽑을 수 있습니다. Output으로 추출한 부분은 이후에 remote state에서 활용할 수 있습니다.
-backend : terraform의 상태를 저장할 공간을 지정하는 부분입니다. beNX에서는 기본적으로 s3를 사용하고 있습니다.
-module : 공통적으로 활용할 수 있는 인프라 코드를 한 곳으로 모아서 정의하는 부분입니다. Module을 사용하면 변수만 바꿔서 동일한 리소스를 손쉽게 생성할 수 있다는 장점이 있습니다. 
-remote state : remote state를 사용하면 VPC, IAM 등과 같이 여러 서비스가 공통으로 사용하는 것을 사용할 수 있습니다. tfstate파일이 저장되어 있는 backend 정보를 명시하면, terraform이 해당 backend에서 output 정보들을 가져옵니다.
+- output: After provisioning the infrastructure, the created resource can be extracted as an output part. The part extracted as output can be used later in the remote state.
+- backend: This is the part that designates the space to save the terraform state. beNX uses s3 by default.
+- module: A part that collects and defines infrastructure codes that can be used in common. The advantage of using a module is that you can easily create the same resource by changing only the variable.
+- remote state: If you use remote state, you can use things that are commonly used by multiple services, such as VPC and IAM. If you specify the backend information in which the tfstate file is stored, terraform fetches the output information from the backend.
 
 
+## There are three types of Terraform.
 
-테라폼에는 3가지의 형상이 존재합니다.
-Local 코드 : 현재 개발자가 작성/수정하고 있는 코드
-AWS 실제 인프라 : 실제로 AWS에 배포되어 있는 인프라
-Backend에 저장된 상태 : 가장 최근에 배포한 테라폼 코드 형상
-이 세 가지 형상의 흐름을 이해하시면 각 테라폼 명령이 어떤 작업을 위한 일인지 쉽게 파악하실 수 있습니다. 여기서 가장 중요한 것은 AWS 실제 인프라와 Backend에 저장된 상태가 100% 일치하도록 만드는 것입니다. 테라폼을 운영하면서 최대한 이 두가지가 100% 동일하도록 유지하는 것이 중요한데, 테라폼에서는 이를 위해 import, state 등 여러 명령어를 제공합니다.
-먼저, 인프라 정의는 Local 코드에서 시작합니다. 개발자는 로컬에서 테라폼 코드를 정의한 후에 해당 코드를 실제 인프라로 프로비전합니다. 이 때 backend를 구성하여 최신 코드를 저장하는데, 흐름은 아래와 같습니다.
+- Local code: The code currently being written/modified by the developer
+- AWS Infrastructure: Infrastructure that is actually deployed on AWS
+- Saved state in Backend: The most recently deployed Terraform code shape
+<br>
+Understanding the flow of these three features makes it easy to figure out what tasks each Terraform command is for. The most important thing here is to make sure that the AWS physical infrastructure and the state stored in the backend are 100% consistent. It is important to keep these two 100% identical while operating Terraform, and Terraform provides several commands such as import and state for this purpose.<br>
+First, the infrastructure definition starts with the local code. Developers define Terraform code locally and then provision that code into real infrastructure. At this time, the backend is configured to save the latest code, and the flow is as follows.
+<br>
 
-Terraform init 
-지정한 backend에 상태 저장을 위한 .tfstate 파일을 생성합니다. 여기에는 가장 마지막에 적용한 테라폼 내역이 저장됩니다. 
-init 작업을 완료하면, local에는 .tfstate에 정의된 내용을 담은 .terraform 파일이 생성됩니다.
-기존에 다른 개발자가 이미 .tfstate에 인프라를 정의해 놓은 것이 있다면, 다른 개발자는 init작업을 통해서 local에 sync를 맞출 수 있습니다.
-Terraform plan
-정의한 코드가 어떤 인프라를 만들게 되는지 미리 예측 결과를 보여줍니다. 단, plan을 한 내용에 에러가 없다고 하더라도, 실제 적용되었을 때는 에러가 발생할 수 있습니다. 
-Plan 명령어는 어떠한 형상에도 변화를 주지 않습니다.
-Terraform apply
-실제로 인프라를 배포하기 위한 명령어입니다. apply를 완료하면, AWS 상에 실제로 해당 인프라가 생성되고 작업 결과가 backend의 .tfstate 파일에 저장됩니다. 
-해당 결과는 local의 .terraform 파일에도 저장됩니다.
-Terraform import
-AWS 인프라에 배포된 리소스를 terraform state로 옮겨주는 작업입니다. 
-이는 local의 .terraform에 해당 리소스의 상태 정보를 저장해주는 역할을 합니다. (절대 코드를 생성해주지 않습니다.)
-Apply 전까지는 backend에 저장되지 않습니다.
-Import 이후에 plan을 하면 로컬에 해당 코드가 없기 때문에 리소스가 삭제 또는 변경된다는 결과를 보여줍니다. 이 결과를 바탕으로 코드를 작성하실 수 있습니다.
+- Terraform init
+Creates a .tfstate file for saving state in the specified backend. This is where the last applied Terraform history is stored.
+When the init operation is completed, a .terraform file containing the contents defined in .tfstate is created in local.
+If another developer has already defined the infrastructure in .tfstate, the other developer can sync to the local through the init operation.
 
-만약 기존에 인프라를 AWS에 배포한 상태에서 테라폼을 적용하고 싶으면 모든 리소스를 terraform import로 옮겨야 합니다. 번거로운 경우에는 처음부터 다시 작업해서 리소스를 올릴 수 있지만, 실제 서비스가 되는 인프라를 내리는 건 위험할 수 있기 때문에 신중하게 결정하시기 바랍니다.
+- Terraform plan
+Predicting what kind of infrastructure the defined code will create is shown. However, even if there is no error in the contents of the plan, an error may occur when it is actually applied.
+The Plan command does not change any shape.
+
+- Terraform apply
+This is actually the command to deploy the infrastructure. When the apply is complete, the infrastructure is actually created on AWS, and the results are saved in the backend's.
+The results are also saved in the local .terraform file.
+
+- Terraform import
+This is the operation of moving the resources deployed in the AWS infrastructure to the terraform state.
+This serves to save the state information of the resource in the local .terraform. (Never generates code.)
+
+- It is not saved in the backend until Apply.
+If you plan after importing, the result is that the resource is deleted or changed because there is no corresponding code locally. You can write code based on this result.
+
+> If you want to apply Terraform with your existing infrastructure deployed on AWS, you need to move all resources to terraform import. If it's cumbersome, you can start over and raise your resources from scratch, but it's risky to take down an infrastructure that actually serves, so make your decision carefully.
