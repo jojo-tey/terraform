@@ -1,5 +1,6 @@
 # Infrastructure_as_code
 
+> To practice how to manage AWS as code
 
 ## Multi account
 
@@ -31,9 +32,11 @@ The reasons for defining the infrastructure in code are as follows:
 If documented in code, you can use the github tool for version control.
 Update and rollback are convenient if you manage version
 Whenever you upload a new version, you can find error points through code reviews, etc.
+
 - Easy to understand infrastructure
 You can check the configuration of the entire infrastructure through code.
 When new team members come in, you can see your infrastructure configuration much faster by looking at the code that has been cleaned up.
+
 - Speed up deployment
 When you need to configure the infrastructure for a new service, you can quickly configure it using existing code.<br>
 Since multiple resources can be created at the same time, it is much faster than manually creating them in the console.<br>

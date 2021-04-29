@@ -2,7 +2,7 @@
 provider "aws" {
   access_key = var.AWS_ACCESS_KEY # Replace to your access key
   secret_key = var.AWS_SECRET_KEY # Replace to your secret key
-  region     = var.AWS_REGION     # # Replace to your region
+  region     = var.AWS_REGION     # Replace to your region
 }
 
 
