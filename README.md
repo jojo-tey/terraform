@@ -1,6 +1,16 @@
-# Infrastructure_as_code
+# Infrastructure as code
 
 > To practice how to manage AWS as code
+
+[TOC]
+
+- [Multi account](#Multi-account)
+- [What is Infrastructure as Code?](#What-is-Infrastructure-as-Code?)
+- [Infrastructure example](#Infrastructure-example)
+  - [Initialize](#Initialize)
+  - [EC2 Instance](#https://github.com/jojo-tey/terraform/tree/main/ec2_tester/README.md)
+  - [S3 Bucket](#S3-Bucket)
+
 
 ## Multi account
 
@@ -44,5 +54,37 @@ When deployment is to proceed in the order of development -> stage -> operation,
 
 
 
+## Infrastructure example
+
+### Initialize
 
 
+
+
+[Top](#Infrastructure-as-code)
+
+
+### EC2 Instance
+
+- This is simple test server with basic setting
+
+1. VPC
+2. Internet Gateway
+3. Custom Route Table
+4. Subnet
+5. Subnet with Route Table
+6. Security Group managing
+7. Network interface with an ip
+8. Assign an elastic IP
+9. Create server and command
+
+[Top](#Infrastructure-as-code)
+
+
+### S3 Bucket
+
+
+
+
+
+[Top](#Infrastructure-as-code)
