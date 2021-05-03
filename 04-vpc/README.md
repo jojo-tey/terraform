@@ -23,54 +23,54 @@
 
 1. Create Security group
 
-- Default/Home Security Group
-  - `04-vpc/dev_eucentral1/default_sg.tf`
-  - 10.0.0.0/8 is the CIDR range we are going to use for all VPC setting
-  - Default SG : This is a security group that instances should have in common
-  - Home SG : This is a security group designed to allow only company access to websites that require access control, such as the Admin page and kibana page
+  - Default/Home Security Group
+    - `04-vpc/dev_eucentral1/default_sg.tf`
+    - 10.0.0.0/8 is the CIDR range we are going to use for all VPC setting
+    - Default SG : This is a security group that instances should have in common
+    - Home SG : This is a security group designed to allow only company access to websites that require access control, such as the Admin page and kibana page
 
-- Bastion Security Group(Optional)
-  - `04-vpc/dev_eucentral1/bastion_sg.tf`
-  - Bastion SG: This is a security group to use for Bastion server
-  - Bastion Aware SG: This is a security group that allows permission to access through Bastion. This security group will be attached to the private instance
+  - Bastion Security Group(Optional)
+    - `04-vpc/dev_eucentral1/bastion_sg.tf`
+    - Bastion SG: This is a security group to use for Bastion server
+    - Bastion Aware SG: This is a security group that allows permission to access through Bastion. This security group will be attached to the private instance
 
 > If you are accessing SSH through AWS Session Manager, Teleport, etc. without a bastion server, you do not need to create the following security group
 
 2. Route53 Record
 
-- `04-vpc/dev_eucentral1/route53.tf`
-- Create an Internal DNS Record for use in the VPC. It is recommended to create each VPC in order to use DNS for internal communication
-- Because each VPC is independent, duplicate names are okay. In this lab, the internal DNS of all VPCs is unified as account.internal
+  - `04-vpc/dev_eucentral1/route53.tf`
+  - Create an Internal DNS Record for use in the VPC. It is recommended to create each VPC in order to use DNS for internal communication
+  - Because each VPC is independent, duplicate names are okay. In this lab, the internal DNS of all VPCs is unified as account.internal
 
 3. Create VPC pakage
 
-- `04-vpc/dev_eucentral1/vpc.tf`
-- The basic configuration required for the VPC is installed as a package
-- This file contains the following components
-  - VPC
-  - Public Subnet / Private Subnet / DB Subnet(private)
-  - Elastic IP for NAT
-  - Route Table
-  - Internet Gateway
-  - NAT Gateway
+  - `04-vpc/dev_eucentral1/vpc.tf`
+  - The basic configuration required for the VPC is installed as a package
+  - This file contains the following components
+    - VPC
+    - Public Subnet / Private Subnet / DB Subnet(private)
+    - Elastic IP for NAT
+    - Route Table
+    - Internet Gateway
+    - NAT Gateway
 
 4. Route Table Routes
 
-- `04-vpc/dev_eucentral1/route_table_routes.tf`
-- You need to register it in the route table so that you can use the IGW and NAT you created earlier 
-- Since we plan to add routes for peering later, the files are separated and managed for convenience
+  - `04-vpc/dev_eucentral1/route_table_routes.tf`
+  - You need to register it in the route table so that you can use the IGW and NAT you created earlier 
+  - Since we plan to add routes for peering later, the files are separated and managed for convenience
 
 5. Output
 
-- `04-vpc/dev_eucentral1/outputs.tf`
-- Resources created in the VPC will be used by other resources in the future
-- All values to be used are added as output
+  - `04-vpc/dev_eucentral1/outputs.tf`
+  - Resources created in the VPC will be used by other resources in the future
+  - All values to be used are added as output
 
 6. Create resource
 
-- terraform init
-- terraform plan -parallelism=30
-- terraform apply -parallelism=30
+  - terraform init
+  - terraform plan -parallelism=30
+  - terraform apply -parallelism=30
 
 
 ### Production VPC
@@ -94,29 +94,29 @@
 
 1. Create Requester
 
-- `04-vpc/prod_eucentral1/peering.tf`
-- Add variable you need in variables.tf and set values in terraform.tfvars
-- Send request through terraform plan and apply
+  - `04-vpc/prod_eucentral1/peering.tf`
+  - Add variable you need in variables.tf and set values in terraform.tfvars
+  - Send request through terraform plan and apply
 
 2. Create Acceptor
 
-- `04-vpc/dev_eucentral1/peering.tf`
-- Add variable you need in variables.tf and set values in terraform.tfvars
-- Accept connection through terraform plan and apply
+  - `04-vpc/dev_eucentral1/peering.tf`
+  - Add variable you need in variables.tf and set values in terraform.tfvars
+  - Accept connection through terraform plan and apply
 
 3. Add Route Rule in Prod
 
-- `04-vpc/prod_eucentral1/route_table_routes.tf`
-- Now register in the route table so that requests coming into the VPC CIDR can use peering connection
-- Add variable you need in variables.tf and set values in terraform.tfvars
-- Create resource through plan/apply
+  - `04-vpc/prod_eucentral1/route_table_routes.tf`
+  - Now register in the route table so that requests coming into the VPC CIDR can use peering connection
+  - Add variable you need in variables.tf and set values in terraform.tfvars
+  - Create resource through plan/apply
 
 4. Add Route Rule in Dev
 
-- `04-vpc/dev_eucentral1/route_table_routes.tf`
-- `NOTE : Route rules in Prod and Dev are NOT same`
-- Add variable you need in variables.tf and set values in terraform.tfvars
-- Create resource through plan/apply
+  - `04-vpc/dev_eucentral1/route_table_routes.tf`
+  - `NOTE : Route rules in Prod and Dev are NOT same`
+  - Add variable you need in variables.tf and set values in terraform.tfvars
+  - Create resource through plan/apply
 
 
 ## VPC Endpoint

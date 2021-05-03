@@ -7,27 +7,27 @@
 
 1. Define Global variable
 
-- `/03-variables/var_global.tf`
+  - `/03-variables/var_global.tf`
 
-- var_global.tf contains the following:
-  - Account ID
-  - VPC(Amazon Virtual Private Cloud)
-  - IAM(AWS Identity and Access Management)
-  - WAF(AWS Web Application Firewall)
-  - KMS(Amazon Key Management Service)
+  - var_global.tf contains the following:
+    - Account ID
+    - VPC(Amazon Virtual Private Cloud)
+    - IAM(AWS Identity and Access Management)
+    - WAF(AWS Web Application Firewall)
+    - KMS(Amazon Key Management Service)
 
 2. Define variables relate Domain
 
-- `/03-variables/var_route53.tf`
+  - `/03-variables/var_route53.tf`
 
-- var_route53.tf contains the following:
-  - Route53 Zone ID
-  - ACM(Amazon Certificate Manager)
+  - var_route53.tf contains the following:
+    - Route53 Zone ID
+    - ACM(Amazon Certificate Manager)
 
 3. Using Global variable
 
-- In order to use the global variable defined in the upper folder, the relevant file must be moved to the directory
-- At this time, a soft link is created and used for efficient code operation
+  - In order to use the global variable defined in the upper folder, the relevant file must be moved to the directory
+  - At this time, a soft link is created and used for efficient code operation
 
 > If you give the -R option to the cp command when copying the code, the soft link is copied as it is.
 

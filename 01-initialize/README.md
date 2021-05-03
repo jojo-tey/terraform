@@ -25,7 +25,7 @@ https://www.terraform.io/docs/providers/index.html
 
 1. Replace values to yours in var_global.tf 
 
-- /01-initialize/account-id
+  - /01-initialize/account-id
 
 2. terraform init
 3. terraform plan -parallelism=30
