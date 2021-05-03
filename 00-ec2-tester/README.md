@@ -1,7 +1,7 @@
-# EC2 Instance
+# EC2 Tester
 
-
-- This is simple test server with basic setting
+- This is pre-deploy test server with basic setting
+- It will create following objects
 
 1. VPC
 2. Internet Gateway
@@ -34,6 +34,9 @@ AWS_REGION = "Your Region"
 AMIS = "Your AMI"
 
 ```
+
+> `variable.tf` and `terraform.tfvars` are functioning like key and value. This is one of the way to manage secret values
+
 
 - init.tf 
 

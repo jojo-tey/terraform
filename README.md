@@ -2,13 +2,20 @@
 
 > To practice how to manage AWS as code
 
+> This repo is for componentize Terraform to partially use Terraform resources according to the needs
+
+
 [TOC]
 
 - [Multi account](#Multi-account)
 - [What is Infrastructure as Code?](#What-is-Infrastructure-as-Code?)
+- [There are three types of Terraform](#There-are-three-types-of-Terraform)
 - [Infrastructure example](#Infrastructure-example)
-  - [Initialize](#Initialize)
-  - [EC2 Instance](#https://github.com/jojo-tey/terraform/tree/main/ec2_tester/README.md)
+  - [EC2 Tester](https://github.com/jojo-tey/terraform/tree/main/00-ec2-tester)
+  - [Initialize](https://github.com/jojo-tey/terraform/tree/main/01-initialize)
+  - [IAM](https://github.com/jojo-tey/terraform/tree/main/02-iam)
+  - [Global variables](https://github.com/jojo-tey/terraform/tree/main/03-variables)
+  - [VPC](https://github.com/jojo-tey/terraform/tree/main/04-vpc)
   - [S3 Bucket](#S3-Bucket)
 
 
@@ -18,16 +25,20 @@ AWS provides separate spaces individually. So, when configuring your environment
 For example, you can configure multiple accounts like this:
 
 
-- ID
+- ID <br>
 The account the user logs in to to access other environments.
 If you log in only with your id account, you can use your role to access other environments.
-- Preprod
+
+- Preprod <br>
 An account that can carry out various tests such as development/stage/load testing, etc.
-- Production
+
+- Production <br>
 Account on which infrastructure for actual service operation is deployed
-- security
+
+- security <br>
 An account that can collect and manage only security-related services
-- Log archive
+
+- Log archive <br>
 Account for log collection and analysis
 Various configurations are available to suit the situation.
 
@@ -54,35 +65,38 @@ When deployment is to proceed in the order of development -> stage -> operation,
 
 
 
-## Infrastructure example
 
-### Initialize
+## There are three types of Terraform
 
+- Local code: The code currently being written/modified by the developer
+- AWS Infrastructure: Infrastructure that is actually deployed on AWS
+- Saved state in Backend: The most recently deployed Terraform code shape
+<br>
+Understanding the flow of these three features makes it easy to figure out what tasks each Terraform command is for. The most important thing here is to make sure that the AWS physical infrastructure and the state stored in the backend are 100% consistent. It is important to keep these two 100% identical while operating Terraform, and Terraform provides several commands such as import and state for this purpose.<br>
+First, the infrastructure definition starts with the local code. Developers define Terraform code locally and then provision that code into real infrastructure. At this time, the backend is configured to save the latest code, and the flow is as follows.
+<br>
 
+- Terraform init
+Creates a .tfstate file for saving state in the specified backend. This is where the last applied Terraform history is stored.
+When the init operation is completed, a .terraform file containing the contents defined in .tfstate is created in local.
+If another developer has already defined the infrastructure in .tfstate, the other developer can sync to the local through the init operation.
 
+- Terraform plan
+Predicting what kind of infrastructure the defined code will create is shown. However, even if there is no error in the contents of the plan, an error may occur when it is actually applied.
+The Plan command does not change any shape.
 
-[Top](#Infrastructure-as-code)
+- Terraform apply
+This is actually the command to deploy the infrastructure. When the apply is complete, the infrastructure is actually created on AWS, and the results are saved in the backend's.
+The results are also saved in the local .terraform file.
 
+- Terraform import
+This is the operation of moving the resources deployed in the AWS infrastructure to the terraform state.
+This serves to save the state information of the resource in the local .terraform. (Never generates code.)
 
-### EC2 Instance
+- It is not saved in the backend until Apply.
+If you plan after importing, the result is that the resource is deleted or changed because there is no corresponding code locally. You can write code based on this result.
 
-- This is simple test server with basic setting
-
-1. VPC
-2. Internet Gateway
-3. Custom Route Table
-4. Subnet
-5. Subnet with Route Table
-6. Security Group managing
-7. Network interface with an ip
-8. Assign an elastic IP
-9. Create server and command
-
-[Top](#Infrastructure-as-code)
-
-
-### S3 Bucket
-
+> If you want to apply Terraform with your existing infrastructure deployed on AWS, you need to move all resources to terraform import. If it's cumbersome, you can start over and raise your resources from scratch, but it's risky to take down an infrastructure that actually serves, so make your decision carefully.
 
 
 
