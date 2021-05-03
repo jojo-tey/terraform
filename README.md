@@ -1,11 +1,14 @@
 # Infrastructure as code
 
-> To practice how to manage AWS as code
+![Image](/images/infrastructure-as-code-1.png)
 
+
+## What is this repo?
+
+> To practice how to manage AWS as code
 > This repo is for componentize Terraform to partially use Terraform resources according to the needs
 
-
-[TOC]
+## :memo: Table of Contents
 
 - [Multi account](#Multi-account)
 - [What is Infrastructure as Code?](#What-is-Infrastructure-as-Code?)
@@ -16,7 +19,7 @@
   - [IAM](https://github.com/jojo-tey/terraform/tree/main/02-iam)
   - [Global variables](https://github.com/jojo-tey/terraform/tree/main/03-variables)
   - [VPC](https://github.com/jojo-tey/terraform/tree/main/04-vpc)
-  - [S3 Bucket](#S3-Bucket)
+  - [S3 + Cloud front](https://github.com/jojo-tey/terraform/tree/main/05-s3-cloudfront)
 
 
 ## Multi account
