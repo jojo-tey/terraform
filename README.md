@@ -20,6 +20,9 @@
   - [Global variables](https://github.com/jojo-tey/terraform/tree/main/03-variables)
   - [VPC](https://github.com/jojo-tey/terraform/tree/main/04-vpc)
   - [S3 + Cloud front](https://github.com/jojo-tey/terraform/tree/main/05-s3-cloudfront)
+  - [KMS](https://github.com/jojo-tey/terraform/tree/main/06-kms)
+  - [Database](https://github.com/jojo-tey/terraform/tree/main/07-database)
+  - [Route53](https://github.com/jojo-tey/terraform/tree/main/08-route53)
 
 
 ## Multi account
