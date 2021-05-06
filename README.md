@@ -23,6 +23,9 @@
   - [KMS](https://github.com/jojo-tey/terraform/tree/main/06-kms)
   - [Database](https://github.com/jojo-tey/terraform/tree/main/07-database)
   - [Route53](https://github.com/jojo-tey/terraform/tree/main/08-route53)
+  - [Elastic Load Balancer](https://github.com/jojo-tey/terraform/tree/main/09-elb)
+  - [Code build + Jenkins](https://github.com/jojo-tey/terraform/tree/main/10-codebuild-jenkins)
+  
 
 
 ## Multi account

@@ -26,7 +26,7 @@ usage (){
  
 is_jq_installed(){
  
-  if ! type jq >> /dev/null ; then
+  if ! type jq >> /prod/null ; then
     echo "You don't have 'jq' installed, please install it first"
     exit 1
   fi
