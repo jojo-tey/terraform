@@ -67,4 +67,7 @@ A structure that deploys Jenkins to an EC2 instance and deploys it by linking wi
     - This is the role you will use in Codebuild, so you must have the necessary permissions for the actual build/deployment.
     - Go to the IAM directory of the account where you want to create the codebuild and proceed with the creation. (`10-codebuild-jenkins/_module/codebuild/iam_codebuild.tf`)
 
+  2. Create Docker Image(optional)
+
+  
 
